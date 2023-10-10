@@ -3,6 +3,8 @@
 # FileName: C01W01_1
 # Python Script
 
+# 单层 单节点 神经网络
+
 import numpy as np
 import matplotlib.pyplot as plt
 import h5py

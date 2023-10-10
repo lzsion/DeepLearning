@@ -3,6 +3,8 @@
 # FileName: C01W03_1
 # Python Script
 
+# 两层 多节点 神经网络
+
 import numpy as np
 import matplotlib.pyplot as plt
 from testCases import *
@@ -302,9 +304,9 @@ predictions = predict(parameters, X)
 accuracy = (np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - predictions.T)) / float(Y.size) * 100
 print('准确率: %d' % accuracy.item() + '%')
 '''
-# 调节隐藏层数量
+# 调节隐藏层节点数量
 plt.figure(figsize=(16, 32))
-hidden_layer_sizes = [1, 2, 3, 4, 5, 10, 20]  # 隐藏层数量
+hidden_layer_sizes = [1, 2, 3, 4, 5, 10, 20]  # 隐藏层节点数量
 for i, n_h in enumerate(hidden_layer_sizes):
     plt.subplot(5, 2, i + 1)
     plt.title('Hidden Layer of size %d' % n_h)
