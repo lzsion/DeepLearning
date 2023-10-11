@@ -184,7 +184,7 @@ def predict(X, y, parameters):
     """
     
     m = X.shape[1]
-    p = np.zeros((1,m), dtype = np.int)
+    p = np.zeros((1,m), dtype = int)
     
     # Forward propagation
     a3, caches = forward_propagation(X, parameters)
@@ -200,7 +200,7 @@ def predict(X, y, parameters):
 
     #print ("predictions: " + str(p[0,:]))
     #print ("true labels: " + str(y[0,:]))
-    print("Accuracy: "  + str(np.mean((p[0,:] == y[0,:]))))
+    print("正确率: "  + str(np.mean((p[0,:] == y[0,:]))))
     
     return p
 
@@ -253,7 +253,7 @@ def load_dataset():
     np.random.seed(3)
     train_X, train_Y = sklearn.datasets.make_moons(n_samples=300, noise=.2) #300 #0.2 
     # Visualize the data
-    plt.scatter(train_X[:, 0], train_X[:, 1], c=train_Y, s=40, cmap=plt.cm.Spectral);
+    # plt.scatter(train_X[:, 0], train_X[:, 1], c=train_Y, s=40, cmap=plt.cm.Spectral);
     train_X = train_X.T
     train_Y = train_Y.reshape((1, train_Y.shape[0]))
     
