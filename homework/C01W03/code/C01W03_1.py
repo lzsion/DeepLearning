@@ -15,6 +15,8 @@ from sklearn.linear_model import LogisticRegressionCV
 from planar_utils import plot_decision_boundary, sigmoid, load_planar_dataset, load_extra_datasets
 
 X, Y = load_planar_dataset()  # 导入花图案
+# X内存有花瓣图案的点坐标(x1, x2)
+# Y代表点的颜色 (Y取值为0或1)
 
 # print(X.shape)  # (2, 400)
 # print(Y.shape)  # (1, 400)
