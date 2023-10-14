@@ -8,10 +8,10 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-class Convnet(nn.Module):
+class ConvNet(nn.Module):
 
     def __init__(self):
-        super(Convnet, self).__init__()
+        super(ConvNet, self).__init__()
         self.for_ward = nn.Sequential(
 
             nn.Conv2d(1, 16, 5),
