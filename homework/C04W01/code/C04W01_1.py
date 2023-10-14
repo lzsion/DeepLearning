@@ -49,7 +49,9 @@ def zero_pad(X, pad):
         (pad, pad),  # 图像高度,你可以视为上面填充x个，下面填充y个(x,y)
         (pad, pad),  # 图像宽度,你可以视为左边填充x个，右边填充y个(x,y)
         (0, 0)),  # 通道数，不填充
-                     'constant', constant_values=0)  # 连续一样的值填充
+        mode='constant', constant_values=0)  # 连续一样的值填充
+
+    # X_paded = np.pad(X, pad, 'constant', constant_values=0)
 
     return X_paded
 
