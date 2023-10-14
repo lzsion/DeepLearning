@@ -255,7 +255,7 @@ def compute_cost(Z3, Y):
 # # 计算时差
 # print("CPU的执行时间 = " + str(end_time - start_time) + " 秒")
 def model(X_train, Y_train, X_test, Y_test,
-          learning_rate=0.0001, num_epochs=1500, minibatch_size=256,
+          learning_rate=0.00001, num_epochs=5000, minibatch_size=512,
           print_cost=True, is_plot=True):
     """
     实现一个三层的TensorFlow神经网络：LINEAR -> RELU -> LINEAR -> RELU -> LINEAR -> SOFTMAX
@@ -333,8 +333,8 @@ def model(X_train, Y_train, X_test, Y_test,
 #
 # print(X_test.shape)  # (12288, 120)
 # print(Y_test.shape)  # (6, 120)
-
-model(X_train, Y_train, X_test, Y_test)
+with tf.device('/device:GPU:0'):
+    model(X_train, Y_train, X_test, Y_test)
 
 # start_time = time.perf_counter()
 # # 开始训练
