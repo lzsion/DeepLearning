@@ -1,0 +1,2 @@
+1、参考Demo_LeNet，利用pytorch构建用于mnist分类的ANN和CNN网络（详见作业要求）
+2、数据集可通过torchvision.datasets下载
