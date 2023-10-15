@@ -1,0 +1,20 @@
+--------------------第 10 代--------------------
+训练集上,成本值为: 1.4778576680083773 	 正确率(%): 98.95166666666667
+测试及上,成本值为: 1.4857741594314575 	 正确率(%): 98.14
+学习率: 0.002
+minibatch_size=64
+ANN(
+  (model_linear): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=784, out_features=512, bias=True)
+    (2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (3): ReLU()
+    (4): Linear(in_features=512, out_features=256, bias=True)
+    (5): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): Linear(in_features=256, out_features=64, bias=True)
+    (8): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (9): ReLU()
+    (10): Linear(in_features=64, out_features=10, bias=True)
+  )
+)

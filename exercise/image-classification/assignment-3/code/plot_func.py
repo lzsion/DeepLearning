@@ -49,11 +49,11 @@ def plot_image(img, label, clas, figure_num):
     plt.show()
 
 
-def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig):
+def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig, model_name):
     current_time = datetime.now()  # 获取当前系统时间
     formatted_time = current_time.strftime("%Y-%m-%d_%H-%M")  # 将时间格式化为字符串
-    loss_path = './fig/fig-LOSS_' + formatted_time
-    acc_path = './fig/fig-Accuracy_' + formatted_time
+    loss_path = './fig/fig-LOSS_' + model_name + '_' + formatted_time
+    acc_path = './fig/fig-Accuracy_' + model_name + '_' + formatted_time
 
     fig = plt.figure(2)
     plt.plot(range(len(train_loss_list)), train_loss_list, 'blue')
@@ -61,6 +61,7 @@ def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, i
     plt.legend(['Train Loss', 'Test Loss'], fontsize=14, loc='best')
     plt.xlabel('Epoch', fontsize=14)
     plt.ylabel('Loss', fontsize=14)
+    plt.title(model_name)
     plt.grid()
     if isSaveFig:
         plt.savefig(loss_path)
@@ -72,6 +73,7 @@ def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, i
     plt.legend(['Train Accuracy', 'Test Accuracy'], fontsize=14, loc='best')
     plt.xlabel('Epoch', fontsize=14)
     plt.ylabel('Accuracy(%)', fontsize=14)
+    plt.title(model_name)
     plt.grid()
     if isSaveFig:
         plt.savefig(acc_path)

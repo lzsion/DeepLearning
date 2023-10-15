@@ -15,12 +15,12 @@ import torch.optim as optim
 import torch.nn.functional as F
 
 from CNN_Net import CNN
-from CNN_Net import load_model, model_CNN
+from model_func import load_model, model_CNN, model_ANN
 from load_data import load_data
 from plot_func import plot_samples, plot_curve
 
 if __name__ == '__main__':
-    train, test = load_data(minibatch_size=64)
+    train, test = load_data(minibatch_size=64)  # 加载数据
 
     # images, labels = next(iter(train))
     # print(images.shape, labels.shape)  # torch.Size([64, 1, 28, 28]) torch.Size([64])
@@ -29,7 +29,9 @@ if __name__ == '__main__':
 
     device = torch.device('cuda')
 
-    # model_path = './model/MNIST_CNN_2023-10-15_17-53.pth'
-    # model = load_model(model_path, device)  # 加载模型
+    # model_CNN(train, test, learning_rate=0.002, epoch_num=10, device=device)
 
-    model_CNN(train, test, learning_rate=0.002, epoch_num=10, device=device)
+    model_ANN(train, test, learning_rate=0.002, epoch_num=10, device=device)
+
+    # model_path = './model/MNIST_CNN_2023-10-15_20-49.pth'
+    # model = load_model(model_path, device)  # 加载模型

@@ -21,30 +21,30 @@ from plot_func import plot_samples, plot_curve
 from load_data import load_data
 
 
-class CNN(nn.Module):
+class ANN(nn.Module):
 
     def __init__(self):
-        super(CNN, self).__init__()
-        self.model_conv = nn.Sequential(
-            nn.Conv2d(1, 16, 5, 1, 0),
-            nn.BatchNorm2d(16),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-
-            # nn.Dropout2d(p=0.8),
-            nn.Conv2d(16, 32, 5, 1, 0),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-        )
+        super(ANN, self).__init__()
         self.model_linear = nn.Sequential(
-            nn.Linear(32 * 4 * 4, 10),
-            # nn.ReLU(),
+            nn.Flatten(),
+
+            nn.Linear(28*28, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(),
+
+            nn.Linear(512, 256),
+            nn.BatchNorm1d(256),
+            nn.ReLU(),
+
+            nn.Linear(256, 64),
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+
+            nn.Linear(64, 10),
+
         )
 
     def forward(self, x):
-        x = self.model_conv(x)
-        x = x.view(x.shape[0], -1)
         x = self.model_linear(x)
         x = F.softmax(x, 1)
         return x
