@@ -9,11 +9,11 @@ from matplotlib import pyplot as plt
 from datetime import datetime
 
 
-def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig):
+def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig, w, h):
     current_time = datetime.now()  # 获取当前系统时间
     formatted_time = current_time.strftime("%Y-%m-%d_%H-%M")  # 将时间格式化为字符串
-    loss_path = './fig/fig-LOSS_' + formatted_time
-    acc_path = './fig/fig-Accuracy_' + formatted_time
+    loss_path = './fig/fig-LOSS_' + str(w) + '_' + str(h) + '_' + formatted_time
+    acc_path = './fig/fig-Accuracy_' + str(w) + '_' + str(h) + '_' + formatted_time
 
     fig = plt.figure(2)
     plt.plot(range(len(train_loss_list)), train_loss_list, 'blue')
@@ -49,23 +49,27 @@ def plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, i
 #     plt.show()
 
 
-def plot_image(img, label, img_name, clas, figure_num):
+def plot_image(img, label, img_name, clas, figure_num, w, h):
     fig = plt.figure(figure_num)
     for i in range(10):
         plt.subplot(2, 5, i + 1)
         # plt.tight_layout()
-        plt.imshow(img[i].view(60, 60), cmap='gray')
+        plt.imshow(img[i].view(w, h), cmap='gray')
         plt.title("{}:{}".format(img_name, label[i].item()))
         plt.xticks([])
         plt.yticks([])
-    plt.savefig('./fig/fig' + clas)
+    plt.savefig('./fig/sample_' + clas)
     plt.show()
 
 
-def plot_samples(train, img_name='label', clas='60_60', figure_num=1):
+def plot_samples(train, img_name='label', figure_num=1):
     train_data09 = []
     train_label09 = []
     added_classes = set()
+    inputs, labels = next(iter(train))
+    w, h = inputs.shape[2], inputs.shape[3]
+    clas = str(w) + '_' + str(h)
+    # print(inputs.shape, labels.shape)  # torch.Size([64, 1, 88, 88]) torch.Size([64])
     for batch_data, batch_labels in train:
         for data, label in zip(batch_data, batch_labels):
             if label.item() not in added_classes:
@@ -86,7 +90,7 @@ def plot_samples(train, img_name='label', clas='60_60', figure_num=1):
     # 转回为列表
     train_data09 = list(train_data09)
     train_label09 = list(train_label09)
-    plot_image(train_data09, train_label09, img_name, clas, figure_num)
+    plot_image(train_data09, train_label09, img_name, clas, figure_num, w, h)
 
     return train_data09, train_label09
     # train_data09 = []

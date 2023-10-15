@@ -19,7 +19,7 @@ fmap_block1 = {}
 fmap_block2 = {}
 
 
-def model_func(train, test, learning_rate=0.02, num_epochs=100, device=torch.device('cpu'),
+def model_func(train, test, learning_rate=0.02, epoch_num=100, device=torch.device('cpu'),
                print_cost=True, isPlot=True, isSaveFig=True, isSaveModel=True):
     model = ConvNet()  # 实例化网络
     model = model.to(device)
@@ -36,7 +36,7 @@ def model_func(train, test, learning_rate=0.02, num_epochs=100, device=torch.dev
     test_acc_list = []
     test_loss_list = []
 
-    for epoch in range(num_epochs):
+    for epoch in range(epoch_num):
         train_loss = 0.0  # 训练集的loss
         test_loss = 0.0  # 测试集的loss
 
@@ -85,41 +85,46 @@ def model_func(train, test, learning_rate=0.02, num_epochs=100, device=torch.dev
                 test_acc += (predict == labels).sum().item()  # 累加正确的个数
                 test_sample_sum += predict.shape[0]  # 计算训练集样本总数，用于平均
 
-        if print_cost and epoch % 10 == 9:
+        # if print_cost and epoch % 10 == 9:
+        if print_cost:
             print(('-' * 20) + f"第 {epoch + 1} 代" + ('-' * 20))
             print(
-                f"训练集上,成本值为: {train_loss / train_batch_idx} \t 正确率(%):{100 * train_acc / train_sample_sum}")
-            print(f"测试及上,成本值为: {test_loss / test_batch_idx} \t 正确率(%):{100 * test_acc / test_sample_sum}")
+                f"训练集上,成本值为: {train_loss / (train_batch_idx + 1)} \t 正确率(%):{100 * train_acc / train_sample_sum}")
+            print(
+                f"测试及上,成本值为: {test_loss / (test_batch_idx + 1)} \t 正确率(%):{100 * test_acc / test_sample_sum}")
 
-        train_loss_list.append(train_loss / train_batch_idx)
+        train_loss_list.append(train_loss / (train_batch_idx + 1))
         train_acc_list.append(100 * train_acc / train_sample_sum)
         test_acc_list.append(100 * test_acc / test_sample_sum)
-        test_loss_list.append(test_loss / test_batch_idx)
+        test_loss_list.append(test_loss / (test_batch_idx + 1))
 
+    inputs, labels = next(iter(train))
+    w, h = inputs.shape[2], inputs.shape[3]
     if isPlot:
-        plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig)
+        plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig, w, h)
         plt.show()
     if isSaveModel:
-        save_model(model)
+        save_model(model, w, h)
         current_time = datetime.now()  # 获取当前系统时间
         formatted_time = current_time.strftime("%Y-%m-%d_%H-%M")  # 将时间格式化为字符串
-        textpath = './model/ConvNet60_' + formatted_time + '.txt'
+        textpath = './model/ConvNet_' + str(w) + '_' + str(h) + '_' + formatted_time + '.txt'
         with open(textpath, "w", encoding="utf-8") as file:
             sys.stdout = file  # 重定向标准输出到文件
-            print(('-' * 20) + f"第 {num_epochs} 代" + ('-' * 20))
+            print(('-' * 20) + f"第 {epoch_num} 代" + ('-' * 20))
             print(
-                f"训练集上,成本值为: {train_loss / train_batch_idx} \t 正确率(%): {100 * train_acc / train_sample_sum}")
-            print(f"测试及上,成本值为: {test_loss / test_batch_idx} \t 正确率(%): {100 * test_acc / test_sample_sum}")
+                f"训练集上,成本值为: {train_loss / (train_batch_idx + 1)} \t 正确率(%): {100 * train_acc / train_sample_sum}")
+            print(
+                f"测试及上,成本值为: {test_loss / (test_batch_idx + 1)} \t 正确率(%): {100 * test_acc / test_sample_sum}")
             print(f"学习率: {learning_rate}")
             print(model)
             sys.stdout = sys.__stdout__  # 恢复标准输出
     return model
 
 
-def save_model(model):
+def save_model(model, w, h):
     current_time = datetime.now()  # 获取当前系统时间
     formatted_time = current_time.strftime("%Y-%m-%d_%H-%M")  # 将时间格式化为字符串
-    path = './model/ConvNet60_' + formatted_time + '.pth'
+    path = './model/ConvNet_' + str(w) + '_' + str(h) + '_' + formatted_time + '.pth'
     torch.save(model, path)
 
 

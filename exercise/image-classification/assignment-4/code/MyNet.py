@@ -20,18 +20,23 @@ class ConvNet(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
 
-            nn.Conv2d(16, 32, 7),
+            nn.Conv2d(16, 32, 5),
             nn.BatchNorm2d(32),
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
 
-            nn.Dropout2d(p=0.5),
-            nn.Conv2d(32, 64, 5),
+            # nn.Dropout2d(p=0.5),
+            nn.Conv2d(32, 64, 6),
             nn.BatchNorm2d(64),
             nn.ReLU(),
+            nn.MaxPool2d(2, 2),
 
-            nn.Dropout2d(p=0.3),
-            nn.Conv2d(64, 10, 7),
+            # nn.Dropout2d(p=0.3),
+            nn.Conv2d(64, 128, 5),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+
+            nn.Conv2d(128, 10, 3),
             nn.BatchNorm2d(10),
         )
 
