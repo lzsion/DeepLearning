@@ -111,6 +111,7 @@ def model_func(train, test, learning_rate=0.02, num_epochs=100, device=torch.dev
                 f"训练集上,成本值为: {train_loss / train_batch_idx} \t 正确率(%): {100 * train_acc / train_sample_sum}")
             print(f"测试及上,成本值为: {test_loss / test_batch_idx} \t 正确率(%): {100 * test_acc / test_sample_sum}")
             print(f"学习率: {learning_rate}")
+            print(model)
             sys.stdout = sys.__stdout__  # 恢复标准输出
     return model
 

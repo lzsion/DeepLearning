@@ -1,0 +1,20 @@
+--------------------第 10 代--------------------
+训练集上,成本值为: 1.4685569986351517 	 正确率(%): 99.28166666666667
+测试及上,成本值为: 1.4731391668319702 	 正确率(%): 98.81
+学习率: 0.002
+minibatch_size=64
+CNN(
+  (model_conv): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+    (5): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (model_linear): Sequential(
+    (0): Linear(in_features=512, out_features=10, bias=True)
+  )
+)
