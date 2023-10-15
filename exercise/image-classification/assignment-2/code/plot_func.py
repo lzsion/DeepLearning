@@ -88,6 +88,7 @@ def plot_samples(train, img_name='label', clas='60_60', figure_num=1):
     train_label09 = list(train_label09)
     plot_image(train_data09, train_label09, img_name, clas, figure_num)
 
+    return train_data09, train_label09
     # train_data09 = []
     # train_label09 = []
     # for i in range(10):  # 每个类型选一个数据

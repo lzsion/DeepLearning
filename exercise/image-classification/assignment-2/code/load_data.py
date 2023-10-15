@@ -63,3 +63,10 @@ def load_data(data_path, minibatch_size=64):
     test = DataLoader(test_xy, batch_size=256)
 
     return train, test
+
+
+def get_first_data(train, device=torch.device('cpu')):
+    batch_img, batch_label = next(iter(train))  # 获取第一个batch
+    input_img = batch_img[0].view(1, 1, 60, 60).to(device).float()
+    input_label = batch_label[0].view(1).to(device)
+    return input_img, input_label
