@@ -53,8 +53,21 @@
 ### 2.1 图像分类实战
 
 - （1）参考资料：demo_LeNet文件和demo_fully_ConvNet文件。
+    demo_LeNet和demo_fully_ConvNet的实现代码见  
+    /exercise/image-classification/assignment-1/code  
+    /exercise/image-classification/assignment-2/code  
 - （2）学习目标：学习如何利用pytorch搭建并训练分类网络，包括数据集加载、预处理、网络构建、优化器选择等。重点掌握pytorch的常用函数和语法。
 - （3）动手实验：完成作业并撰写报告，作业共两部分内容
     **任务一**为利用pytorch构建用于mnist分类的ANN和CNN网络（网络需包含dropout层）。
+    代码见 /exercise/image-classification/assignment-3/code
     **任务二**为利用pytorch构建用于mstar分类的全卷积网络（全卷积指不包含全连接层，此外网络需包含batch norm层）。
+    代码见 /exercise/image-classification/assignment-4/code
 报告主要记录模型原理（模型结构、前向反向传播、优化器等）、实验环境、数据集介绍、实验结果（loss和accuracy曲线等）、结果对比分析等。
+
+### 2.2 数据集
+
+由于GitHub大小限制，隐藏了部分数据集
+/exercise/image-classification/assignment-1/code/data/
+/exercise/image-classification/assignment-2/code/mstar_data/
+/exercise/image-classification/assignment-3/code/data/
+/exercise/image-classification/assignment-4/code/mstar_data/
