@@ -9,19 +9,26 @@ import torch.nn as nn
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from torch import optim
-from MyNet import ConvNet
+from MyNet import ConvNet88, ConvNet128
 from load_data import load_data
 from datetime import datetime
-from plot_func import plot_curve
+from plot_func import plot_curve, plot_samples
 
 fmap_block0 = {}
 fmap_block1 = {}
 fmap_block2 = {}
 
 
-def model_func(train, test, learning_rate=0.02, epoch_num=100, device=torch.device('cpu'),
-               print_cost=True, isPlot=True, isSaveFig=True, isSaveModel=True):
-    model = ConvNet()  # 实例化网络
+def model_88(train, test, learning_rate=0.02, epoch_num=10, device=torch.device('cpu'),
+             print_cost=True, isPlot=True, isSaveFig=True, isSaveModel=True):
+    inputs, labels = next(iter(train))
+    w, h = inputs.shape[2], inputs.shape[3]
+
+    if not (w == 88 and h == 88):
+        print('数据尺寸应为88*88')
+        return
+
+    model = ConvNet88()  # 实例化网络
     model = model.to(device)
 
     criterion = nn.CrossEntropyLoss(reduction='mean').to(device)  # cost函数
@@ -87,7 +94,7 @@ def model_func(train, test, learning_rate=0.02, epoch_num=100, device=torch.devi
 
         # if print_cost and epoch % 10 == 9:
         if print_cost:
-            print(('-' * 20) + f"第 {epoch + 1} 代" + ('-' * 20))
+            print(str(w) + '*' + str(h) + ('-' * 20) + f"第 {epoch + 1} 代" + ('-' * 20))
             print(
                 f"训练集上,成本值为: {train_loss / (train_batch_idx + 1)} \t 正确率(%):{100 * train_acc / train_sample_sum}")
             print(
@@ -98,8 +105,6 @@ def model_func(train, test, learning_rate=0.02, epoch_num=100, device=torch.devi
         test_acc_list.append(100 * test_acc / test_sample_sum)
         test_loss_list.append(test_loss / (test_batch_idx + 1))
 
-    inputs, labels = next(iter(train))
-    w, h = inputs.shape[2], inputs.shape[3]
     if isPlot:
         plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig, w, h)
         plt.show()
@@ -110,7 +115,7 @@ def model_func(train, test, learning_rate=0.02, epoch_num=100, device=torch.devi
         textpath = './model/ConvNet_' + str(w) + '_' + str(h) + '_' + formatted_time + '.txt'
         with open(textpath, "w", encoding="utf-8") as file:
             sys.stdout = file  # 重定向标准输出到文件
-            print(('-' * 20) + f"第 {epoch_num} 代" + ('-' * 20))
+            print(str(w) + '*' + str(h) + ('-' * 20) + f"第 {epoch_num} 代" + ('-' * 20))
             print(
                 f"训练集上,成本值为: {train_loss / (train_batch_idx + 1)} \t 正确率(%): {100 * train_acc / train_sample_sum}")
             print(
@@ -119,6 +124,129 @@ def model_func(train, test, learning_rate=0.02, epoch_num=100, device=torch.devi
             print(model)
             sys.stdout = sys.__stdout__  # 恢复标准输出
     return model
+
+
+def model_128(train, test, learning_rate=0.02, epoch_num=10, device=torch.device('cpu'),
+              print_cost=True, isPlot=True, isSaveFig=True, isSaveModel=True):
+    inputs, labels = next(iter(train))
+    w, h = inputs.shape[2], inputs.shape[3]
+
+    if not (w == 128 and h == 128):
+        print('数据尺寸应为128*128')
+        return
+
+    model = ConvNet128()  # 实例化网络
+    model = model.to(device)
+
+    criterion = nn.CrossEntropyLoss(reduction='mean').to(device)  # cost函数
+
+    optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)  # 优化器 (momentum)
+
+    # print(model)
+
+    # 初始化训练集测试集上正确率和loss，用于绘图
+    train_acc_list = []
+    train_loss_list = []
+    test_acc_list = []
+    test_loss_list = []
+
+    for epoch in range(epoch_num):
+        train_loss = 0.0  # 训练集的loss
+        test_loss = 0.0  # 测试集的loss
+
+        train_acc = 0  # 训练集正确率
+        test_acc = 0  # 测试集正确率
+
+        train_sample_sum = 0  # 训练集样本总数
+        test_sample_sum = 0  # 测试集样本总数
+
+        # 开始训练
+        model.train()
+        for train_batch_idx, data in enumerate(train, 0):
+            inputs, labels = data
+            inputs, labels = inputs.to(device), labels.to(device)  # 转到gpu
+
+            optimizer.zero_grad()  # 梯度清零 (初始化)
+
+            outputs = model(inputs.float())  # 正向传播
+
+            loss = criterion(outputs, labels.long())  # 计算loss
+            train_loss += loss.item()  # 累加loss，后面求平均
+
+            loss.backward()  # 反向传播
+
+            optimizer.step()  # 优化器更新参数
+
+            # 计算正确率
+            _, predict = torch.max(outputs.data, 1)
+            train_acc += (predict == labels).sum().item()  # 累加正确的个数
+            train_sample_sum += predict.shape[0]  # 计算训练集样本总数，用于平均
+
+        # 开始测试
+        model.eval()
+        with torch.no_grad():
+            for test_batch_idx, data in enumerate(test, 0):
+                inputs, labels = data
+                inputs, labels = inputs.to(device), labels.to(device)  # 转到gpu
+
+                outputs = model(inputs.float())  # 正向传播
+
+                loss = criterion(outputs, labels.long())  # 计算loss
+                test_loss += loss.item()  # 累加loss，后面求平均
+
+                # 计算正确率
+                _, predict = torch.max(outputs.data, 1)
+                test_acc += (predict == labels).sum().item()  # 累加正确的个数
+                test_sample_sum += predict.shape[0]  # 计算训练集样本总数，用于平均
+
+        # if print_cost and epoch % 10 == 9:
+        if print_cost:
+            print(str(w) + '*' + str(h) + ('-' * 20) + f"第 {epoch + 1} 代" + ('-' * 20))
+            print(
+                f"训练集上,成本值为: {train_loss / (train_batch_idx + 1)} \t 正确率(%):{100 * train_acc / train_sample_sum}")
+            print(
+                f"测试及上,成本值为: {test_loss / (test_batch_idx + 1)} \t 正确率(%):{100 * test_acc / test_sample_sum}")
+
+        train_loss_list.append(train_loss / (train_batch_idx + 1))
+        train_acc_list.append(100 * train_acc / train_sample_sum)
+        test_acc_list.append(100 * test_acc / test_sample_sum)
+        test_loss_list.append(test_loss / (test_batch_idx + 1))
+
+    if isPlot:
+        plot_curve(train_loss_list, test_loss_list, train_acc_list, test_acc_list, isSaveFig, w, h)
+        plt.show()
+    if isSaveModel:
+        save_model(model, w, h)
+        current_time = datetime.now()  # 获取当前系统时间
+        formatted_time = current_time.strftime("%Y-%m-%d_%H-%M")  # 将时间格式化为字符串
+        textpath = './model/ConvNet_' + str(w) + '_' + str(h) + '_' + formatted_time + '.txt'
+        with open(textpath, "w", encoding="utf-8") as file:
+            sys.stdout = file  # 重定向标准输出到文件
+            print(str(w) + '*' + str(h) + ('-' * 20) + f"第 {epoch_num} 代" + ('-' * 20))
+            print(
+                f"训练集上,成本值为: {train_loss / (train_batch_idx + 1)} \t 正确率(%): {100 * train_acc / train_sample_sum}")
+            print(
+                f"测试及上,成本值为: {test_loss / (test_batch_idx + 1)} \t 正确率(%): {100 * test_acc / test_sample_sum}")
+            print(f"学习率: {learning_rate}")
+            print(model)
+            sys.stdout = sys.__stdout__  # 恢复标准输出
+    return model
+
+
+def model_train(size, minibatch_size=64, learning_rate=0.02, epoch_num=10, device=torch.device('cpu'),
+                plotSample=False, print_cost=True, isPlot=True, isSaveFig=True, isSaveModel=True):
+    if size == '88':
+        train, test = load_data('mstar_data/88_88.mat', minibatch_size)
+        if plotSample:
+            plot_samples(train, figure_num=1)  # 显示各个类型的样本
+        model_88(train, test, learning_rate, epoch_num, device, print_cost, isPlot, isSaveFig, isSaveModel)
+    elif size == '128':
+        train, test = load_data('mstar_data/128_128.mat', minibatch_size)
+        if plotSample:
+            plot_samples(train, figure_num=1)  # 显示各个类型的样本
+        model_128(train, test, learning_rate, epoch_num, device, print_cost, isPlot, isSaveFig, isSaveModel)
+    else:
+        print("没有此类型数据")
 
 
 def save_model(model, w, h):

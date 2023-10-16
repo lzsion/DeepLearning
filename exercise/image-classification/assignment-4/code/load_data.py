@@ -23,6 +23,7 @@ def load_data(data_path, minibatch_size=64):
 
     # print(train_data.shape, train_label.shape, test_data.shape, test_label.shape)
     # (3671, 60, 60) (1, 3671) (3203, 60, 60) (1, 3203)
+    # (3671, 128, 128) (1, 3671) (3203, 128, 128) (1, 3203)
 
     train_data = train_data.reshape(train_data.shape[0], 1, train_data.shape[1], train_data.shape[2])  # 加上通道数
     test_data = test_data.reshape(test_data.shape[0], 1, test_data.shape[1], test_data.shape[2])
