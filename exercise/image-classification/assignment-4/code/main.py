@@ -39,7 +39,7 @@ from model_func import model_88, load_model, model_visual, model_128, model_trai
 if __name__ == '__main__':
     device = torch.device('cuda')  # 使用gpu训练，指定device
 
-    model_train('128', minibatch_size=64, learning_rate=0.02, epoch_num=10, device=device)
+    model_train('88', minibatch_size=64, learning_rate=0.02, epoch_num=10, device=device)
     # model_train('88', minibatch_size=64, learning_rate=0.02, epoch_num=10, device=device)
 
     # model_path = './model/ConvNet_128_128_2023-10-16_10-57.pth'

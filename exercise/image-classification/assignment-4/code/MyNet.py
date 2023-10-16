@@ -25,7 +25,7 @@ class ConvNet88(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
 
-            # nn.Dropout2d(p=0.5),
+            # nn.Dropout2d(p=0.2),
             nn.Conv2d(32, 64, 6),
             nn.BatchNorm2d(64),
             nn.ReLU(),
