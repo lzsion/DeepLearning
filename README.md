@@ -67,7 +67,7 @@
 ### 2.2 数据集
 
 由于GitHub大小限制，隐藏了部分数据集
-/exercise/image-classification/assignment-1/code/data/
-/exercise/image-classification/assignment-2/code/mstar_data/
-/exercise/image-classification/assignment-3/code/data/
-/exercise/image-classification/assignment-4/code/mstar_data/
+/exercise/image-classification/assignment-1/code/data/  
+/exercise/image-classification/assignment-2/code/mstar_data/  
+/exercise/image-classification/assignment-3/code/data/  
+/exercise/image-classification/assignment-4/code/mstar_data/  

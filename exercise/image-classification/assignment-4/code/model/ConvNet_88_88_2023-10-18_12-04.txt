@@ -1,0 +1,25 @@
+88*88--------------------第 10 代--------------------
+训练集上,成本值为: 1.4820610490338555 	 正确率(%): 99.94551893217107
+测试及上,成本值为: 1.5271434783935547 	 正确率(%): 98.0018732438339
+学习率: 0.02
+ConvNet88(
+  (for_ward): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+    (5): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(32, 64, kernel_size=(6, 6), stride=(1, 1))
+    (9): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Conv2d(64, 128, kernel_size=(5, 5), stride=(1, 1))
+    (13): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (14): ReLU()
+    (15): Conv2d(128, 10, kernel_size=(3, 3), stride=(1, 1))
+    (16): BatchNorm2d(10, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+)
